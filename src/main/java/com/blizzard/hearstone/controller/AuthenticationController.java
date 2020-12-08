@@ -37,12 +37,6 @@ public class AuthenticationController {
 
     @PostMapping("authenticate")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
-
-    	/*
-	   System.out.println("**************");
-       System.out.println(authenticationRequest.getName() );
-       System.out.println(authenticationRequest.getPassword() );
-       */
            
         authenticate(authenticationRequest.getName(), authenticationRequest.getPassword());
 
