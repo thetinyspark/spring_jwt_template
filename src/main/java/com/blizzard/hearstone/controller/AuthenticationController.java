@@ -21,8 +21,8 @@ import com.blizzard.hearstone.security.JwtResponse;
 import com.blizzard.hearstone.security.JwtTokenUtil;
 import com.blizzard.hearstone.security.JwtUserDetailsService;
 
+@CrossOrigin(origins= {"*"})
 @RestController
-@CrossOrigin("*")
 public class AuthenticationController {
 
     @Autowired
@@ -35,20 +35,20 @@ public class AuthenticationController {
     private JwtUserDetailsService userDetailsService;
 
 
-    @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
+    @PostMapping("authenticate")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
 
-        authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
+        authenticate(authenticationRequest.getName(), authenticationRequest.getPassword());
 
         final UserDetails userDetails = userDetailsService
-                .loadUserByUsername(authenticationRequest.getUsername());
+                .loadUserByUsername(authenticationRequest.getName());
 
         final String token = jwtTokenUtil.generateToken(userDetails);
         return ResponseEntity.ok(new JwtResponse(token));
     }
 
     /*@Secured({"SUPER_ADMIN"})*/
-    @PostMapping("/register")
+    @PostMapping("register")
     public ResponseEntity<?> saveUser(@RequestBody User user) throws Exception {
         return ResponseEntity.ok(userDetailsService.save(user));
     }

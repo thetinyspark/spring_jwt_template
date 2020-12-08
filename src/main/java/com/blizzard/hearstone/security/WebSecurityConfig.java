@@ -62,6 +62,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		.antMatchers(HttpMethod.POST, "/character").permitAll() 
 		.antMatchers(HttpMethod.PUT, "/character/{id}").permitAll() 
 		.antMatchers(HttpMethod.DELETE, "/character/{id}").permitAll() 
+		.antMatchers(HttpMethod.POST, "/authenticate").permitAll() 
+		.antMatchers(HttpMethod.POST, "/register").permitAll() 
 		// ensuite pour chaque requête ne correspondant aux patterns cités plus haut
 		.anyRequest()
 		// on doit  être authentifié par le biais d'un jeton jwt
@@ -76,7 +78,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		.sessionManagement()
 		.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		
-		http.addFilterBefore( filter, UsernamePasswordAuthenticationFilter.class);
+		/*http.addFilterBefore( filter, UsernamePasswordAuthenticationFilter.class);*/
 
 	}
 }
