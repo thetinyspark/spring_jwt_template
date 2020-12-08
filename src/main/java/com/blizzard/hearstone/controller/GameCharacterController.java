@@ -60,8 +60,6 @@ public class GameCharacterController{
 		repo.saveAndFlush(perso);
 		repocard.saveAndFlush(blueEyesWhiteDragon);
 		
-		
-		
 		return perso;
 	}
 	
