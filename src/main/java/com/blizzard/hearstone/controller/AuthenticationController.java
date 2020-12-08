@@ -38,8 +38,16 @@ public class AuthenticationController {
     @PostMapping("authenticate")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
 
+    	/*
+	   System.out.println("**************");
+       System.out.println(authenticationRequest.getName() );
+       System.out.println(authenticationRequest.getPassword() );
+       */
+           
         authenticate(authenticationRequest.getName(), authenticationRequest.getPassword());
 
+     
+        
         final UserDetails userDetails = userDetailsService
                 .loadUserByUsername(authenticationRequest.getName());
 
@@ -47,7 +55,7 @@ public class AuthenticationController {
         return ResponseEntity.ok(new JwtResponse(token));
     }
 
-    /*@Secured({"SUPER_ADMIN"})*/
+    @Secured({"SUPER_ADMIN"})
     @PostMapping("register")
     public ResponseEntity<?> saveUser(@RequestBody User user) throws Exception {
         return ResponseEntity.ok(userDetailsService.save(user));

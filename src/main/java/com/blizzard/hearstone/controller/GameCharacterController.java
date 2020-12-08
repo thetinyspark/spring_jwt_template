@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.blizzard.hearstone.model.CardRepository;
 import com.blizzard.hearstone.model.PersoRepository;
+import com.blizzard.hearstone.model.entity.Card;
 import com.blizzard.hearstone.model.entity.GameCharacter;
 
 @CrossOrigin(origins= {"*"})
@@ -23,6 +25,9 @@ public class GameCharacterController{
 	
 	@Autowired
 	PersoRepository repo;
+	
+	@Autowired
+	CardRepository repocard;
 	
 	@GetMapping("character")
 	public List<GameCharacter> getAll() throws Exception{
@@ -46,7 +51,18 @@ public class GameCharacterController{
 	
 	@PostMapping("character")
 	public GameCharacter create(@RequestBody GameCharacter perso) {
-		return repo.save(perso);
+		
+		Card blueEyesWhiteDragon  = new Card(); 
+		blueEyesWhiteDragon.setName("Blue Eyes White Dragon");
+		blueEyesWhiteDragon.setCharacter(perso);
+		perso.getCards().add( blueEyesWhiteDragon );
+		
+		repo.saveAndFlush(perso);
+		repocard.saveAndFlush(blueEyesWhiteDragon);
+		
+		
+		
+		return perso;
 	}
 	
 	@PutMapping("character/{id}")

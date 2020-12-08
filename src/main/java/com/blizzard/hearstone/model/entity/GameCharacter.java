@@ -1,13 +1,22 @@
 package com.blizzard.hearstone.model.entity;
 
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 public class GameCharacter implements IGameCharacter {
+	
 	
 	@Id
 	@GeneratedValue( strategy = GenerationType.IDENTITY )
@@ -25,6 +34,9 @@ public class GameCharacter implements IGameCharacter {
 	@Column
 	private int strength;
 	
+	@OneToMany( cascade=CascadeType.ALL  , mappedBy = "character" )
+	private List<Card> cards;
+	
 	@Column
 	private String name; 
 	
@@ -34,26 +46,11 @@ public class GameCharacter implements IGameCharacter {
 		this.setMana(0);
 		this.setStamina(0);
 		this.setStrength(0);
-	}
-	
-	public GameCharacter() {}
-	
-	public GameCharacter(
-			String name, 
-			int life, 
-			int mana, 
-			int stamina,
-			int strength
-	) {
-		this.setName(name);
-		this.setLife(life);
-		this.setMana(mana);
-		this.setStamina(stamina);
-		this.setStrength(strength);
+		this.setCards(new ArrayList<Card>());
 	}
 	
 
-	
+	public List<Card> getCards()			{ 	return this.cards; 			}
 	public String getName() 				{	return name;				}
 	public Long getId() 					{	return id; 					}
 	public int getStrength() 				{	return strength; 			}
@@ -61,6 +58,7 @@ public class GameCharacter implements IGameCharacter {
 	public int getMana() 					{	return mana;				}
 	public int getStamina() 				{	return stamina;				}
 	
+	public void setCards(List<Card> cards)  { 	this.cards		= cards; 			}
 	public void setName(String name) 		{	this.name 		= name;				}
 	public void setId(Long id) 				{	this.id 		= id;				}
 	public void setStamina(int v) 			{	this.stamina 	= (v<0) ? 0 : v;	}

@@ -38,8 +38,11 @@ public class JwtRequestFilter extends OncePerRequestFilter{
 		String username = null; 
 		String jwtToken = null;
 		
+		
+		
 		// dans la convention JWT, on envoie le token avec le préfixe "Bearer "
 		if( requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
+			
 			jwtToken = requestTokenHeader.substring(7);
 			
 			try {
@@ -53,7 +56,10 @@ public class JwtRequestFilter extends OncePerRequestFilter{
 			System.out.println("JWT Token does not begin with a Bearer string");
 		}
 		
+	
+		
 		if( username != null && SecurityContextHolder.getContext().getAuthentication() == null ) {
+			System.out.println("coucou");
 			UserDetails details = this.service.loadUserByUsername(username);
 			
 			if( util.validateToken(jwtToken, details)) {
